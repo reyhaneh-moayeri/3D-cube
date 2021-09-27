@@ -68,16 +68,15 @@ const renderer = new THREE.WebGLRenderer({
 
 renderer.setSize(size.width, size.height);
 
-let time = Date.now();
+const clock = new THREE.Clock();
 
 const loop = () => {
   // animate
-  const currentTime = Date.now();
-  const delta = currentTime - time;
-  time = currentTime;
-  // console.log(delta);
-  group.rotation.x += 0.001 * delta;
-  // group.rotation.y += 0.01;
+  const elapsedTime = clock.getElapsedTime();
+  // group.rotation.x += 0.001 * delta;
+  group.position.x = Math.sin(elapsedTime);
+  group.position.y = Math.sin(elapsedTime);
+  group.rotation.x += 0.01 * elapsedTime;
   // render
   renderer.render(scene, camera);
   window.requestAnimationFrame(loop);
