@@ -76,7 +76,7 @@ const loop = () => {
   // group.rotation.x += 0.001 * delta;
   group.position.x = Math.sin(elapsedTime);
   group.position.y = Math.sin(elapsedTime);
-  group.rotation.x += 0.01 * elapsedTime;
+  group.rotation.x = elapsedTime;
   // render
   renderer.render(scene, camera);
   window.requestAnimationFrame(loop);
