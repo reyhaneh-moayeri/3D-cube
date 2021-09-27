@@ -1,4 +1,4 @@
-# Three.js Learning Journey
+# Three.js Learning Journey. Everyday I Learn Something New and Will Push That Here.
 
 ## Setup
 Download [Node.js](https://nodejs.org/en/download/).
