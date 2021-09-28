@@ -17,7 +17,7 @@ const scene = new THREE.Scene();
 
 const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
 
-const geometry2 = new THREE.Geometry();
+// const geometry2 = new THREE.Geometry();
 // vertex 1
 // const vertex1 = new THREE.Vector3(0, 0, 0);
 // geometry2.vertices.push(vertex1);
@@ -33,29 +33,42 @@ const geometry2 = new THREE.Geometry();
 // const face = new THREE.Face3(0, 1, 2);
 // geometry2.faces.push(face);
 
-for (let e = 0; e < 50; e++) {
-  for (let i = 0; i < 3; i++) {
-    geometry2.vertices.push(
-      new THREE.Vector3(
-        (Math.random() - 0.5) * 4.5,
-        (Math.random() - 0.5) * 4.5,
-        (Math.random() - 0.5) * 4.5
-      )
-    );
-  }
-  const verticiesIndex = e * 3;
-  geometry2.faces.push(
-    new THREE.Face3(verticiesIndex, verticiesIndex + 1, verticiesIndex + 2)
-  );
+// for (let e = 0; e < 50; e++) {
+//   for (let i = 0; i < 3; i++) {
+//     geometry2.vertices.push(
+//       new THREE.Vector3(
+//         (Math.random() - 0.5) * 4.5,
+//         (Math.random() - 0.5) * 4.5,
+//         (Math.random() - 0.5) * 4.5
+//       )
+//     );
+//   }
+//   const verticiesIndex = e * 3;
+//   geometry2.faces.push(
+//     new THREE.Face3(verticiesIndex, verticiesIndex + 1, verticiesIndex + 2)
+//   );
+// }
+
+// const positionArray = new Float32Array([0, 0, 0, 0, 1, 0, 1, 0, 0]);
+
+// const positionAttribute = new THREE.BufferAttribute(positionArray, 3);
+const geometry2 = new THREE.BufferGeometry();
+const count = 250;
+const positionArray = new Float32Array(count * 3 * 3);
+
+for (let i = 0; i < count * 3 * 3; i++) {
+  positionArray[i] = (Math.random() - 0.5) * 3;
 }
+const positionAttribute = new THREE.BufferAttribute(positionArray, 3);
+geometry2.setAttribute("position", positionAttribute);
 
 const mterial = new THREE.MeshBasicMaterial({
-  color: "orange",
+  color: "orangered",
   // wireframe: true,
 });
 
 const mterial2 = new THREE.MeshBasicMaterial({
-  color: "red",
+  color: "pink",
   wireframe: true,
 });
 
@@ -105,7 +118,7 @@ const camera = new THREE.PerspectiveCamera(
   100
 );
 
-camera.position.z = 5;
+camera.position.z = 4;
 // camera.position.x = 1;
 // camera.position.y = 1;
 // camera.lookAt(new THREE.Vector3(1, 0, 0));
