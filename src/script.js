@@ -26,9 +26,17 @@ scene.add(cube);
 // scene.add(axesHelper);
 // size
 const size = {
-  width: 800,
-  height: 600,
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
+
+window.addEventListener("resize", (e) => {
+  size.width = window.innerWidth;
+  size.height = window.innerHeight;
+  camera.aspect = size.width / size.height;
+  camera.updateProjectionMatrix();
+  renderer.setSize(size.width, size.height);
+});
 
 // camera
 const camera = new THREE.PerspectiveCamera(
