@@ -19,22 +19,39 @@ const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
 
 const geometry2 = new THREE.Geometry();
 // vertex 1
-const vertex1 = new THREE.Vector3(0, 0, 0);
-geometry2.vertices.push(vertex1);
-// vertrx 2
-const vertex2 = new THREE.Vector3(0, 1, 0);
-geometry2.vertices.push(vertex2);
+// const vertex1 = new THREE.Vector3(0, 0, 0);
+// geometry2.vertices.push(vertex1);
+// // vertrx 2
+// const vertex2 = new THREE.Vector3(0, 1, 0);
+// geometry2.vertices.push(vertex2);
 
-// vertex 3
-const vertex3 = new THREE.Vector3(1, 0, 0);
-geometry2.vertices.push(vertex3);
+// // vertex 3
+// const vertex3 = new THREE.Vector3(1, 0, 0);
+// geometry2.vertices.push(vertex3);
 
 // face
-const face = new THREE.Face3(0, 1, 2);
-geometry2.faces.push(face);
+// const face = new THREE.Face3(0, 1, 2);
+// geometry2.faces.push(face);
+
+for (let e = 0; e < 50; e++) {
+  for (let i = 0; i < 3; i++) {
+    geometry2.vertices.push(
+      new THREE.Vector3(
+        (Math.random() - 0.5) * 4.5,
+        (Math.random() - 0.5) * 4.5,
+        (Math.random() - 0.5) * 4.5
+      )
+    );
+  }
+  const verticiesIndex = e * 3;
+  geometry2.faces.push(
+    new THREE.Face3(verticiesIndex, verticiesIndex + 1, verticiesIndex + 2)
+  );
+}
+
 const mterial = new THREE.MeshBasicMaterial({
   color: "orange",
-  wireframe: true,
+  // wireframe: true,
 });
 
 const mterial2 = new THREE.MeshBasicMaterial({
@@ -46,8 +63,8 @@ const cube = new THREE.Mesh(geometry, mterial);
 scene.add(cube);
 
 const triangle = new THREE.Mesh(geometry2, mterial2);
-triangle.position.z = -1;
-triangle.position.x = 1;
+// triangle.position.z = -1;
+// triangle.position.x = 1;
 scene.add(triangle);
 // axes helper
 // const axesHelper = new THREE.AxesHelper();
@@ -88,7 +105,7 @@ const camera = new THREE.PerspectiveCamera(
   100
 );
 
-camera.position.z = 3;
+camera.position.z = 5;
 // camera.position.x = 1;
 // camera.position.y = 1;
 // camera.lookAt(new THREE.Vector3(1, 0, 0));
