@@ -15,12 +15,40 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 const canvas = document.querySelector(".webgl");
 const scene = new THREE.Scene();
 
-const geometry = new THREE.BoxGeometry(1, 1, 1);
-const mterial = new THREE.MeshBasicMaterial({ color: "orange" });
+const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
+
+const geometry2 = new THREE.Geometry();
+// vertex 1
+const vertex1 = new THREE.Vector3(0, 0, 0);
+geometry2.vertices.push(vertex1);
+// vertrx 2
+const vertex2 = new THREE.Vector3(0, 1, 0);
+geometry2.vertices.push(vertex2);
+
+// vertex 3
+const vertex3 = new THREE.Vector3(1, 0, 0);
+geometry2.vertices.push(vertex3);
+
+// face
+const face = new THREE.Face3(0, 1, 2);
+geometry2.faces.push(face);
+const mterial = new THREE.MeshBasicMaterial({
+  color: "orange",
+  wireframe: true,
+});
+
+const mterial2 = new THREE.MeshBasicMaterial({
+  color: "red",
+  wireframe: true,
+});
 
 const cube = new THREE.Mesh(geometry, mterial);
 scene.add(cube);
 
+const triangle = new THREE.Mesh(geometry2, mterial2);
+triangle.position.z = -1;
+triangle.position.x = 1;
+scene.add(triangle);
 // axes helper
 // const axesHelper = new THREE.AxesHelper();
 // scene.add(axesHelper);
