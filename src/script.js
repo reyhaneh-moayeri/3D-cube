@@ -30,12 +30,26 @@ const size = {
   height: window.innerHeight,
 };
 
-window.addEventListener("resize", (e) => {
+window.addEventListener("resize", () => {
   size.width = window.innerWidth;
   size.height = window.innerHeight;
   camera.aspect = size.width / size.height;
   camera.updateProjectionMatrix();
   renderer.setSize(size.width, size.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
+
+window.addEventListener("dblclick", () => {
+  // adding webkit to work in safari
+  const fullscreen =
+    document.fullscreenElement || document.webkitFullscreenElement;
+  if (!fullscreen) {
+    if (canvas.requestFullscreen) canvas.requestFullscreen();
+    else if (canvas.webkitRequestFullscreen) canvas.webkitRequestFullscreen();
+  } else {
+    if (document.exitFullscreen) document.exitFullscreen();
+    else if (document.webkitExitFullscreen) document.webkitExitFullscreen();
+  }
 });
 
 // camera
@@ -57,7 +71,7 @@ const renderer = new THREE.WebGLRenderer({
 });
 
 renderer.setSize(size.width, size.height);
-
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 // const clock = new THREE.Clock();
 
 // controls
