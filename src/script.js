@@ -1,7 +1,14 @@
 import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
+import * as dat from "dat.gui";
 
+// debug UI
+const gui = new dat.GUI();
+
+const parameters = {
+  color: 0xff0000,
+};
 // cursor
 // const cursor = {
 //   x: 0,
@@ -53,32 +60,43 @@ const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
 
 // const positionAttribute = new THREE.BufferAttribute(positionArray, 3);
 const geometry2 = new THREE.BufferGeometry();
-const count = 250;
+const count = 320;
 const positionArray = new Float32Array(count * 3 * 3);
 
 for (let i = 0; i < count * 3 * 3; i++) {
-  positionArray[i] = (Math.random() - 0.5) * 3;
+  positionArray[i] = (Math.random() - 0.5) * 2.5;
 }
 const positionAttribute = new THREE.BufferAttribute(positionArray, 3);
 geometry2.setAttribute("position", positionAttribute);
 
-const mterial = new THREE.MeshBasicMaterial({
-  color: "orangered",
+const material = new THREE.MeshBasicMaterial({
+  color: 0xfafafa,
   // wireframe: true,
 });
 
-const mterial2 = new THREE.MeshBasicMaterial({
-  color: "pink",
+const material2 = new THREE.MeshBasicMaterial({
+  color: 0x5f5bed,
   wireframe: true,
 });
 
-const cube = new THREE.Mesh(geometry, mterial);
-scene.add(cube);
+const cube = new THREE.Mesh(geometry, material);
 
-const triangle = new THREE.Mesh(geometry2, mterial2);
-// triangle.position.z = -1;
-// triangle.position.x = 1;
+scene.add(cube);
+gui.add(cube.position, "y", -3, 3, 0.01);
+gui.add(cube.position, "x", -3, 3, 0.01);
+gui.add(cube, "visible");
+const triangle = new THREE.Mesh(geometry2, material2);
 scene.add(triangle);
+gui.add(triangle.position, "y", -3, 3, 0.01);
+gui.add(triangle.position, "x", -3, 3, 0.01);
+gui.add(triangle, "visible");
+// gui.add(material, "wireframe");
+gui.addColor(parameters, "color").onChange(() => {
+  material.color.set(parameters.color);
+});
+gui.addColor(parameters, "color").onChange(() => {
+  material2.color.set(parameters.color);
+});
 // axes helper
 // const axesHelper = new THREE.AxesHelper();
 // scene.add(axesHelper);
