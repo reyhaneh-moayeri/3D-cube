@@ -2,12 +2,38 @@ import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as dat from "dat.gui";
+import gsap from "gsap";
 
+// const image = new Image();
+// const texture = new THREE.Texture(image);
+// image.onload = () => {
+//   texture.needsUpdate = true;
+// };
+// image.src = "/textures/door/color.jpg";
+
+const loadingManager = new THREE.LoadingManager();
+
+loadingManager.onStart = () => {
+  console.log("onstart");
+};
+
+loadingManager.onProgress = () => {
+  console.log("progress");
+};
+
+loadingManager.onError = () => {
+  console.log("error");
+};
+const textureLoader = new THREE.TextureLoader(loadingManager);
+const colorTexture = textureLoader.load("/textures/flower.jpg");
 // debug UI
-const gui = new dat.GUI();
+const gui = new dat.GUI({ closed: true });
 
 const parameters = {
-  color: 0xff0000,
+  color: 0xfafafa,
+  spin() {
+    gsap.to(cube.rotation, { y: 10, duration: 3, delay: 1, z: 10 });
+  },
 };
 // cursor
 // const cursor = {
@@ -24,79 +50,21 @@ const scene = new THREE.Scene();
 
 const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
 
-// const geometry2 = new THREE.Geometry();
-// vertex 1
-// const vertex1 = new THREE.Vector3(0, 0, 0);
-// geometry2.vertices.push(vertex1);
-// // vertrx 2
-// const vertex2 = new THREE.Vector3(0, 1, 0);
-// geometry2.vertices.push(vertex2);
-
-// // vertex 3
-// const vertex3 = new THREE.Vector3(1, 0, 0);
-// geometry2.vertices.push(vertex3);
-
-// face
-// const face = new THREE.Face3(0, 1, 2);
-// geometry2.faces.push(face);
-
-// for (let e = 0; e < 50; e++) {
-//   for (let i = 0; i < 3; i++) {
-//     geometry2.vertices.push(
-//       new THREE.Vector3(
-//         (Math.random() - 0.5) * 4.5,
-//         (Math.random() - 0.5) * 4.5,
-//         (Math.random() - 0.5) * 4.5
-//       )
-//     );
-//   }
-//   const verticiesIndex = e * 3;
-//   geometry2.faces.push(
-//     new THREE.Face3(verticiesIndex, verticiesIndex + 1, verticiesIndex + 2)
-//   );
-// }
-
-// const positionArray = new Float32Array([0, 0, 0, 0, 1, 0, 1, 0, 0]);
-
-// const positionAttribute = new THREE.BufferAttribute(positionArray, 3);
-const geometry2 = new THREE.BufferGeometry();
-const count = 320;
-const positionArray = new Float32Array(count * 3 * 3);
-
-for (let i = 0; i < count * 3 * 3; i++) {
-  positionArray[i] = (Math.random() - 0.5) * 2.5;
-}
-const positionAttribute = new THREE.BufferAttribute(positionArray, 3);
-geometry2.setAttribute("position", positionAttribute);
-
 const material = new THREE.MeshBasicMaterial({
-  color: 0xfafafa,
+  map: colorTexture,
   // wireframe: true,
 });
-
-const material2 = new THREE.MeshBasicMaterial({
-  color: 0x5f5bed,
-  wireframe: true,
-});
-
 const cube = new THREE.Mesh(geometry, material);
 
 scene.add(cube);
 gui.add(cube.position, "y", -3, 3, 0.01);
 gui.add(cube.position, "x", -3, 3, 0.01);
+gui.add(cube.position, "z", -3, 3, 0.01);
 gui.add(cube, "visible");
-const triangle = new THREE.Mesh(geometry2, material2);
-scene.add(triangle);
-gui.add(triangle.position, "y", -3, 3, 0.01);
-gui.add(triangle.position, "x", -3, 3, 0.01);
-gui.add(triangle, "visible");
-// gui.add(material, "wireframe");
 gui.addColor(parameters, "color").onChange(() => {
   material.color.set(parameters.color);
 });
-gui.addColor(parameters, "color").onChange(() => {
-  material2.color.set(parameters.color);
-});
+gui.add(parameters, "spin");
 // axes helper
 // const axesHelper = new THREE.AxesHelper();
 // scene.add(axesHelper);
@@ -136,7 +104,7 @@ const camera = new THREE.PerspectiveCamera(
   100
 );
 
-camera.position.z = 4;
+camera.position.z = 2;
 // camera.position.x = 1;
 // camera.position.y = 1;
 // camera.lookAt(new THREE.Vector3(1, 0, 0));
