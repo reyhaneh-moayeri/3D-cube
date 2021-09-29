@@ -4,6 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import * as dat from "dat.gui";
 import gsap from "gsap";
 
+// first way
 // const image = new Image();
 // const texture = new THREE.Texture(image);
 // image.onload = () => {
@@ -26,6 +27,20 @@ loadingManager.onError = () => {
 };
 const textureLoader = new THREE.TextureLoader(loadingManager);
 const colorTexture = textureLoader.load("/textures/flower.jpg");
+
+colorTexture.repeat.x = 2;
+// colorTexture.repeat.y = 2;
+colorTexture.wrapS = THREE.RepeatWrapping;
+colorTexture.wrapS = THREE.MirroredRepeatWrapping;
+// colorTexture.wrapT = THREE.RepeatWrapping;
+// colorTexture.rotation = 0.25;
+// colorTexture.center.x = 0.5;
+// colorTexture.center.x = 0.5;
+
+colorTexture.minFilter = THREE.NearestFilter;
+colorTexture.magFilter = THREE.NearestFilter;
+// colorTexture.offset.x = 2;
+// colorTexture.offset.y = 0.5;
 // debug UI
 const gui = new dat.GUI({ closed: true });
 
@@ -48,8 +63,12 @@ const parameters = {
 const canvas = document.querySelector(".webgl");
 const scene = new THREE.Scene();
 
-const geometry = new THREE.BoxGeometry(1, 1, 1, 2, 2, 2);
+const geometry = new THREE.BoxBufferGeometry(1, 1, 1, 2, 2, 2);
 
+// UV unwraping
+// const geometry = new THREE.SphereBufferGeometry(1, 32, 32);
+// const geometry = new THREE.ConeBufferGeometry(1, 1, 35);
+// const geometry = new THREE.TorusBufferGeometry(1, 0.35, 32, 100);
 const material = new THREE.MeshBasicMaterial({
   map: colorTexture,
   // wireframe: true,
